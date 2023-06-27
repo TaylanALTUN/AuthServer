@@ -1,6 +1,6 @@
 using System;
 
-namespace AuthServer.API
+namespace MiniApp1.API
 {
     public class WeatherForecast
     {
