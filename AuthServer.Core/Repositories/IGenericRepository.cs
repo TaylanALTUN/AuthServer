@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AuthServer.Core.Repositories
 {
-    public interface IGenereicRepository<T> where T: class
+    public interface IGenericRepository<T> where T: class
     {
         Task<T> GetByIdAsync(int id);
 
