@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AuthServer.Core.Services
 {
-    internal interface IAuthenticationService
+    public interface IAuthenticationService
     {
         Task<ResponseDto<TokenDto>> CreateTokenAsync(LoginDto loginDto);
 
@@ -17,6 +17,6 @@ namespace AuthServer.Core.Services
 
         Task<ResponseDto<NoContentResult>> RevokeRefreshToken(string refreshToken);
 
-        Task<ResponseDto<ClientTokenDto>> CreateTokenByClient (ClientLoginDto clientLoginDto);
+        ResponseDto<ClientTokenDto> CreateTokenByClient (ClientLoginDto clientLoginDto);
     }
 }
