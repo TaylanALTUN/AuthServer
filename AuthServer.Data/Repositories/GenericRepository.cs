@@ -36,7 +36,7 @@ namespace AuthServer.Data.Repositories
 
             if(entity != null)
             {
-                _context.Entry(entity).State = EntityState.Deleted;
+                _context.Entry(entity).State = EntityState.Detached;
             }
 
             return entity;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AuthServer.Core.Services
 {
-    internal interface IServiceGeneric<Entity, Dto> where Entity : class  where Dto : class
+    public interface IServiceGeneric<Entity, Dto> where Entity : class  where Dto : class
     {
         Task<ResponseDto<Dto>> GetByIdAsync(int id);
 
@@ -17,7 +17,7 @@ namespace AuthServer.Core.Services
         Task<ResponseDto<IEnumerable<Dto>>> Where(Expression<Func<Entity, bool>> expression);
         Task<ResponseDto<Dto>> AddAsync(Dto dto);
 
-        Task<ResponseDto<NoDataDto>> Update(Dto dto);
+        Task<ResponseDto<NoDataDto>> Update(Dto dto, int id);
 
         Task<ResponseDto<NoDataDto>> Remove(int id);
     }
