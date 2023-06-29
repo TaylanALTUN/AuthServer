@@ -13,6 +13,6 @@ namespace AuthServer.Core.Services
     {
         TokenDto CreateToken(UserApp userApp);
 
-        ClientTokenDto CreateClientToken(Client client);
+        ClientTokenDto CreateTokenByClient(Client client);
     }
 }
