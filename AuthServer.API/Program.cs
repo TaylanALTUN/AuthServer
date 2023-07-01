@@ -18,12 +18,18 @@ using SharedLibrary.Configurations;
 using SharedLibrary.Services;
 using Microsoft.EntityFrameworkCore;
 using SharedLibrary.Extensions;
+using FluentValidation.AspNetCore;
+using AuthServer.Service.Validations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddFluentValidation(options =>
+{
+    options.RegisterValidatorsFromAssemblyContaining<CreateUserDtoValidator>();
+}); ;
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -54,6 +60,8 @@ builder.Services.Configure<CustomTokenOption>(builder.Configuration.GetSection("
 builder.Services.Configure<List<Client>>(builder.Configuration.GetSection("Clients"));
 
 var tokenOptions = builder.Configuration.GetSection("TokenOption").Get<CustomTokenOption>();
+
+builder.Services.UseCustomValidationResponse();
 
 builder.Services.AddCustomTokenAuth(tokenOptions);
 
