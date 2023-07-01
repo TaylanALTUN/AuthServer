@@ -11,6 +11,7 @@ namespace MiniApp1.API.Controllers
     [ApiController]
     public class StockController : ControllerBase
     {
+        [Authorize(Policy = "AgePolicy")]
         [Authorize(Roles = "admin",Policy = "IstanbulPolicy")]
         [HttpGet]
         public IActionResult GetStock()
