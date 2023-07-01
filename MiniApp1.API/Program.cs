@@ -20,6 +20,14 @@ var tokenOptions = builder.Configuration.GetSection("TokenOption").Get<CustomTok
 
 builder.Services.AddCustomTokenAuth(tokenOptions);
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("IstanbulPolicy", policy =>
+    {
+        policy.RequireClaim("city", "istanbul");
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
