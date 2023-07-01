@@ -17,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 using SharedLibrary.Configurations;
 using SharedLibrary.Services;
 using Microsoft.EntityFrameworkCore;
+using SharedLibrary.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,30 +53,33 @@ builder.Services.AddIdentity<UserApp, IdentityRole>(opt =>
 builder.Services.Configure<CustomTokenOption>(builder.Configuration.GetSection("TokenOption"));
 builder.Services.Configure<List<Client>>(builder.Configuration.GetSection("Clients"));
 
+var tokenOptions = builder.Configuration.GetSection("TokenOption").Get<CustomTokenOption>();
 
+builder.Services.AddCustomTokenAuth(tokenOptions);
 
-builder.Services.AddAuthentication(opt =>
-{
-    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
-{
-    var tokenOptions = builder.Configuration.GetSection("TokenOption").Get<CustomTokenOption>();
+//builder.Services.AddAuthentication(opt =>
+//{
+//    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//}).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
+//{
+//    var tokenOptions = builder.Configuration.GetSection("TokenOption").Get<CustomTokenOption>();
 
-    opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
-    {
-        ValidIssuer = tokenOptions.Issuer,
-        ValidAudience = tokenOptions.Audience[0],
-        IssuerSigningKey = SignService.GetSymmetricSecurityKey(tokenOptions.SecurityKey),
+//    opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+//    {
+//        ValidIssuer = tokenOptions.Issuer,
+//        ValidAudience = tokenOptions.Audience[0],
+//        IssuerSigningKey = SignService.GetSymmetricSecurityKey(tokenOptions.SecurityKey),
 
-        ValidateIssuerSigningKey = true,
-        ValidateAudience = true,
-        ValidateIssuer = true,
-        ValidateLifetime = true,
+//        ValidateIssuerSigningKey = true,
+//        ValidateAudience = true,
+//        ValidateIssuer = true,
+//        ValidateLifetime = true,
 
-        ClockSkew = TimeSpan.Zero
-    };
-});
+//        ClockSkew = TimeSpan.Zero
+//    };
+//});
+
 
 var app = builder.Build();
 
